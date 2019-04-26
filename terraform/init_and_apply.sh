@@ -9,4 +9,7 @@ terraform init -backend-config="key=infrastructure/$ENV/mt-cicd.tfstate" -plugin
 
 API_GATEWAY_STAGE_NAME_VAR_STRING="api_gateway_stage_name=b$BUILD_ID"
 
+# Taint the ecs service to force re-create to update new task.
+terraform taint aws_ecs_service.ecs_service
+
 terraform apply -auto-approve -var $API_GATEWAY_STAGE_NAME_VAR_STRING >> log.txt 2>&1
